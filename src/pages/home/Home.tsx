@@ -1,4 +1,5 @@
-import { KeycapList } from "pages";
+import KeycapList from "pages/keycap-list/KeycapList";
+
 
 const Home = () => {
   return <KeycapList />;

@@ -28,5 +28,6 @@ export const PAGE_PATHS = {
   FEEDBACK_PROACTIVELY_GIVE_ANYTIME: "/feedback/give/anytime",
   FEEDBACK_PROACTIVELY_GIVE_THREE60: "/feedback/give/360",
   KEYCAP: "/keycap",
+  KEYCAP_CREATE: "/keycap/create",
   PAGE_NOT_FOUND: "/page-not-found",
 };

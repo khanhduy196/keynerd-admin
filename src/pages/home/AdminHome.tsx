@@ -1,11 +1,10 @@
 import { Layout } from "components/common/layouts";
-import { PropsWithUser } from "types/props-with-user";
 
-const AdminHome: React.FC<PropsWithUser> = ({ user }) => {
+const AdminHome = () => {
   return (
     <Layout mainClassName="flex flex-col">
       <div className="flex gap-2 mb-4">
-        <h5>{`Hello, ${user.fullName}`}</h5>
+        <h5>Hello Admin</h5>
         <img src="/images/waving-hand.png" alt="waving hand icon" width={50} />
       </div>
       <p>Nothing here just yet but cool things will be added soon!</p>

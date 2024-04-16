@@ -1,1 +1,5 @@
-export type MultiValue<Option> = readonly Option[];
+export type GetPaginatedListRequest = {
+    itemsPerPage: number;
+    currentPage: number;
+    searchQuery?: number;
+  };

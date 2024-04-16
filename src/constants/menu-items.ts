@@ -17,7 +17,7 @@ export const MENU_ITEMS = {
     children: [],
   },
   [PAGE_PATHS.KEYCAP]: {
-    name: "Keycaps",
+    name: "Keycap",
     Icon: FormIcon,
     children: [],
   },

@@ -42,7 +42,6 @@ export const useHttpQueryService = <TResponse>({
       if (axios.isAxiosError(err)) {
         setError(err);
       }
-
       console.log("Request error: ", err);
     } finally {
       setIsLoading(false);
