@@ -1,0 +1,1 @@
+export const DEFAULT_DATE_FIELD_FORMAT = "YYYY-MM-DD";
