@@ -5,7 +5,7 @@ type OptionLabelType = string;
 type OptionValueType = string;
 export type DropdownProps = InputHTMLAttributes<HTMLSelectElement> & {
   id: string;
-  label: string;
+  label?: string;
   hint?: string;
   options: { [optionValue: OptionValueType]: OptionLabelType };
   value?: string;
@@ -31,11 +31,14 @@ const DropdownField: React.FC<DropdownProps> = ({
   ...inputAttributes
 }) => {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="mb-2 flex flex-col gap-1">
-        <label htmlFor={id} className="body-16-semibold text-neutral-200">
-          {label}
-        </label>
+    <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col">
+        {label && (
+          <label htmlFor={id} className="body-16-semibold text-neutral-200">
+            {label}
+          </label>
+        )}
+
         <span className="body-12-regular text-neutral-50">{hint}</span>
       </div>
       <select

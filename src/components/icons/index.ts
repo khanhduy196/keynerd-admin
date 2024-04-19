@@ -26,6 +26,7 @@ import { ReactComponent as CheckboxIcon } from "./checkbox.svg";
 import { ReactComponent as DrawIcon } from "./draw.svg";
 import { ReactComponent as DownloadIcon } from "./download.svg";
 import { ReactComponent as LoadingIcon } from "./loading.svg";
+import { ReactComponent as UploadIcon } from "./upload.svg";
 
 export {
   Three60Icon,
@@ -56,4 +57,5 @@ export {
   DrawIcon,
   DownloadIcon,
   LoadingIcon,
+  UploadIcon,
 };
