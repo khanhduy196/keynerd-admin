@@ -1,4 +1,4 @@
-import { ProfileType, SizeType } from "enums/keycap";
+import { KeycapProfile } from "enums/keycap";
 
 export type KeycapListItem = {
   id: number;
@@ -8,6 +8,6 @@ export type KeycapListItem = {
 
 export type KeyListDetailItem = {
   id: number;
-  profile: ProfileType;
-  size: SizeType;
+  profile: KeycapProfile;
+  size: number;
 };

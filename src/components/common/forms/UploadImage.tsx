@@ -1,28 +1,17 @@
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  InputHTMLAttributes,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
-type UploadImageProps = InputHTMLAttributes<HTMLInputElement> & {
-  id: string;
+type UploadImageProps = {
   label?: string;
   hint?: string;
-  value?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange: (files: File[]) => void;
   className?: string;
   onClearError?: () => void;
 };
 
 const UploadImage: React.FC<UploadImageProps> = ({
-  id,
   label,
   hint,
-  value,
   onChange,
-  name = id,
   onClearError,
 }) => {
   const [images, setImages] = useState<string[]>([]);
@@ -36,8 +25,10 @@ const UploadImage: React.FC<UploadImageProps> = ({
         fileList.push(file);
       }
       setImages(fileList.map((file) => URL.createObjectURL(file)));
+      onChange(fileList);
     } else {
       setImages([]);
+      onChange([]);
     }
   };
   const uploadBtnOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -48,7 +39,10 @@ const UploadImage: React.FC<UploadImageProps> = ({
     <div className="flex flex-col gap-1">
       <div className="mb-2 flex flex-col">
         {label && (
-          <label htmlFor={id} className="body-16-semibold text-neutral-200">
+          <label
+            htmlFor="upload-image-btn"
+            className="body-16-semibold text-neutral-200"
+          >
             {label}
           </label>
         )}
@@ -76,9 +70,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
         multiple
         ref={uploadImageBtn}
         type="file"
-        id={id}
-        value={value}
-        name={name}
+        id="upload-image-btn"
         onChange={uploadImagesOnChange}
         onFocus={onClearError}
         className="hidden"

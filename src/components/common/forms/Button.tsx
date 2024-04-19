@@ -1,6 +1,5 @@
 import { PropsWithChildren } from "react";
 import cx from "classnames";
-import { HomeIcon } from "components/icons";
 
 export type ButtonProps = PropsWithChildren & {
   label?: string;

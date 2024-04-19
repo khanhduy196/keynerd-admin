@@ -1,7 +1,5 @@
 import {
   ChangeEvent,
-  ChangeEventHandler,
-  InputHTMLAttributes,
   useRef,
   useState,
 } from "react";
@@ -10,12 +8,12 @@ import { UploadIcon } from "components/icons";
 
 const NO_FILE_CHOSEN = "No file chosen";
 
-type UploadFileProps = InputHTMLAttributes<HTMLInputElement> & {
+type UploadFileProps = {
   id: string;
   label?: string;
   hint?: string;
   value?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange: (file: File | undefined) => void;
   className?: string;
   onClearError?: () => void;
 };
@@ -26,7 +24,7 @@ const UploadFile: React.FC<UploadFileProps> = ({
   hint,
   value,
   onChange,
-  name = id,
+
   onClearError,
   ...inputAttributes
 }) => {
@@ -37,8 +35,10 @@ const UploadFile: React.FC<UploadFileProps> = ({
     if (files && files.length > 0) {
       const selectedFile = files[0];
       setSelectectFileName(selectedFile.name);
+      onChange(selectedFile);
     } else {
       setSelectectFileName(NO_FILE_CHOSEN);
+      onChange(undefined);
     }
   };
   return (
@@ -71,7 +71,6 @@ const UploadFile: React.FC<UploadFileProps> = ({
         id={id}
         value={value}
         onChange={uploadFilesOnChange}
-        name={name}
         className="hidden"
         onFocus={onClearError}
         {...inputAttributes}
