@@ -1,11 +1,13 @@
 import { Button, Table } from "components/common/forms";
+import Pagination from "components/common/forms/Pagination";
 import { Layout, LoadingWrapper, PageTitle } from "components/common/layouts";
 import { EyeIcon } from "components/icons";
 import { DEFAULT_PAGINATED_LIST_REQUEST } from "constants/common";
 import { useError, useHttpQueryService } from "hooks";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
+import { GetPaginatedListResponse } from "responses/common";
 import { KeycapListItem } from "responses/keycap-response";
 import KeycapService from "services/keycap.service";
 import { GetPaginatedListRequest } from "types/common";
@@ -16,9 +18,10 @@ const KeycapList = () => {
   const {
     result: paginatedList,
     isLoading,
+    refetch,
     error,
-  } = useHttpQueryService({
-    request: async () => KeycapService.getList(paginatedListRequest),
+  } = useHttpQueryService<GetPaginatedListResponse<KeycapListItem>>({
+    request: undefined,
   });
 
   useError(error, true);
@@ -56,6 +59,17 @@ const KeycapList = () => {
     []
   );
 
+  useEffect(() => {
+    refetch(() => KeycapService.getList(paginatedListRequest));
+  }, [paginatedListRequest]);
+
+  const paginationOnChange = (currentPage: number, itemsPerPage: number) => {
+    setPaginatedListRequest({
+      ...paginatedListRequest,
+      currentPage,
+      itemsPerPage,
+    });
+  };
   return (
     <Layout>
       <div className="flex justify-between mb-10">
@@ -65,10 +79,18 @@ const KeycapList = () => {
         </Link>
       </div>
       <LoadingWrapper isLoading={isLoading}>
-        <Table
-          columns={columns}
-          data={paginatedList ? paginatedList.items : []}
-        />
+        {paginatedList && (
+          <>
+            <Pagination
+              className="mb-4"
+              itemsPerPage={paginatedList.itemsPerPage}
+              totalPages={paginatedList.totalPages}
+              currentPage={paginatedList.currentPage}
+              onChange={paginationOnChange}
+            />
+            <Table columns={columns} data={paginatedList.items} />
+          </>
+        )}
       </LoadingWrapper>
     </Layout>
   );

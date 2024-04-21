@@ -30,6 +30,10 @@ const PROFILES: IMultipleChoiceOption[] = [
     value: "SHORTSA",
     label: "Short SA",
   },
+  {
+    value: "NONE",
+    label: "None",
+  },
 ];
 
 const SIZES: IMultipleChoiceOption[] = [
@@ -52,7 +56,7 @@ const CreateKeycapDetailForm: React.FC<CreateKeycapDetailFormProps> = ({
   onRemove,
   value,
   onChange,
-  canRemove = true
+  canRemove = true,
 }) => {
   const { profile, size } = value;
 
@@ -105,13 +109,19 @@ const CreateKeycapDetailForm: React.FC<CreateKeycapDetailFormProps> = ({
       </div>
 
       <div className="flex flex-col gap-1">
-        <div className="mb-2 flex flex-col text-end">
-          {index === 0 && (
+        {index === 0 && (
+          <div className="mb-2 flex flex-col text-end">
             <p className="body-16-semibold text-neutral-200">Icons</p>
-          )}
-        </div>
+          </div>
+        )}
+
         <div className="text-end mt-1">
-          <Button disabled={!canRemove} variant="danger" size="small" onClick={() => onRemove(index)}>
+          <Button
+            disabled={!canRemove}
+            variant="danger"
+            size="small"
+            onClick={() => onRemove(index)}
+          >
             <DeleteIcon className="w-6 h-6" />
           </Button>
         </div>

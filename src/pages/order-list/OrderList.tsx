@@ -1,5 +1,6 @@
 import { Badge } from "components/common";
 import { Button, Table } from "components/common/forms";
+import Pagination from "components/common/forms/Pagination";
 import {
   CustomizedTabs,
   Layout,
@@ -25,10 +26,13 @@ import {
 import { toastSuccess } from "utils/toast";
 
 const OrderList = () => {
-  const [status, setStatus] = useState<OrderStatus>(OrderStatus.TO_DO);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [paginatedListRequest, setPaginatedListRequest] =
-    useState<GetPaginatedOrderListRequest>(DEFAULT_PAGINATED_LIST_REQUEST);
+    useState<GetPaginatedOrderListRequest>({
+      ...DEFAULT_PAGINATED_LIST_REQUEST,
+      status: OrderStatus.TO_DO,
+    });
+
   const {
     result: paginatedList,
     isLoading,
@@ -45,15 +49,6 @@ const OrderList = () => {
 
   useError(error, true);
 
-  const fetchOrders = (currentOrderStatus: OrderStatus) => {
-    refetch(() =>
-      OrderService.getList({
-        ...paginatedListRequest,
-        status: currentOrderStatus,
-      })
-    );
-  };
-
   useEffect(() => {
     let currentOrderStatus: OrderStatus = OrderStatus.TO_DO;
     if (tabIndex === 1) {
@@ -61,9 +56,18 @@ const OrderList = () => {
     } else if (tabIndex === 2) {
       currentOrderStatus = OrderStatus.DONE;
     }
-    setStatus(currentOrderStatus);
-    fetchOrders(currentOrderStatus);
+    setPaginatedListRequest({
+      ...paginatedListRequest,
+      status: currentOrderStatus,
+    });
   }, [tabIndex]);
+
+  const fetchOrders = () => {
+    refetch(() => OrderService.getList(paginatedListRequest));
+  };
+  useEffect(() => {
+    fetchOrders();
+  }, [paginatedListRequest]);
 
   const handleUpdateStatus = (orderItem: OrderItem) => {
     let updatedStatus: OrderStatus;
@@ -86,7 +90,7 @@ const OrderList = () => {
 
     if (response) {
       toastSuccess("Update order successfully!");
-      fetchOrders(status);
+      fetchOrders();
     }
   };
 
@@ -190,6 +194,14 @@ const OrderList = () => {
     []
   );
 
+  const paginationOnChange = (currentPage: number, itemsPerPage: number) => {
+    setPaginatedListRequest({
+      ...paginatedListRequest,
+      currentPage,
+      itemsPerPage,
+    });
+  };
+
   return (
     <Layout>
       <div className="flex justify-between mb-10">
@@ -206,10 +218,20 @@ const OrderList = () => {
       />
       <LoadingWrapper isLoading={isLoading}>
         {paginatedList && paginatedList.items.length > 0 ? (
-          <Table columns={columns} data={paginatedList.items} />
+          <>
+            <Pagination
+              className="mb-4"
+              itemsPerPage={paginatedList.itemsPerPage}
+              totalPages={paginatedList.totalPages}
+              currentPage={paginatedList.currentPage}
+              onChange={paginationOnChange}
+            />
+            <Table columns={columns} data={paginatedList.items} />
+          </>
         ) : (
           <NoOrder />
         )}
+
       </LoadingWrapper>
     </Layout>
   );

@@ -31,7 +31,7 @@ const CreateOrderDetailForm: React.FC<CreateOrderDetailFormProps> = ({
   onChange,
   canRemove = true,
   validationError,
-  onClearError
+  onClearError,
 }) => {
   const [filteredKeycaps, setFilteredKeycaps] = useState<KeycapListItem[]>([]);
   const [sizeOptions, setSizeOptions] = useState<IMultipleChoiceOption[]>([]);
@@ -136,11 +136,12 @@ const CreateOrderDetailForm: React.FC<CreateOrderDetailFormProps> = ({
       </div>
 
       <div className="flex flex-col gap-1">
-        <div className="mb-2 flex flex-col text-end">
-          {index === 0 && (
+        {index === 0 && (
+          <div className="mb-2 flex flex-col text-end">
             <p className="body-16-semibold text-neutral-200">Action</p>
-          )}
-        </div>
+          </div>
+        )}
+
         <div className="text-end mt-1">
           <Button
             disabled={!canRemove}

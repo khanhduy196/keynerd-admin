@@ -1,8 +1,4 @@
-import {
-  ChangeEvent,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import Button from "./Button";
 import { UploadIcon } from "components/icons";
 
@@ -43,14 +39,19 @@ const UploadFile: React.FC<UploadFileProps> = ({
   };
   return (
     <div className="flex flex-col gap-1">
-      <div className="mb-2 flex flex-col">
-        {label && (
-          <label htmlFor={id} className="body-16-semibold text-neutral-200">
-            {label}
-          </label>
-        )}
-        <span className="body-12-regular text-neutral-50">{hint}</span>
-      </div>
+      {(label || hint) && (
+        <div className="mb-2 flex flex-col">
+          {label && (
+            <label htmlFor={id} className="body-16-semibold text-neutral-200">
+              {label}
+            </label>
+          )}
+          {hint && (
+            <span className="body-12-regular text-neutral-50">{hint}</span>
+          )}
+        </div>
+      )}
+
       <div className="flex">
         <Button
           label="Upload"

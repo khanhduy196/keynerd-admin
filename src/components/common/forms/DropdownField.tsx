@@ -2,7 +2,6 @@ import { ChangeEventHandler, InputHTMLAttributes } from "react";
 import cx from "classnames";
 import { IMultipleChoiceOption } from "types/common";
 
-
 export type DropdownProps = InputHTMLAttributes<HTMLSelectElement> & {
   id: string;
   label?: string;
@@ -32,15 +31,20 @@ const DropdownField: React.FC<DropdownProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-1">
-      <div className="mb-2 flex flex-col">
-        {label && (
-          <label htmlFor={id} className="body-16-semibold text-neutral-200">
-            {label}
-          </label>
-        )}
+      {(label || hint) && (
+        <div className="mb-2 flex flex-col">
+          {label && (
+            <label htmlFor={id} className="body-16-semibold text-neutral-200">
+              {label}
+            </label>
+          )}
 
-        <span className="body-12-regular text-neutral-50">{hint}</span>
-      </div>
+          {hint && (
+            <span className="body-12-regular text-neutral-50">{hint}</span>
+          )}
+        </div>
+      )}
+
       <select
         id={id}
         value={value}
@@ -62,7 +66,6 @@ const DropdownField: React.FC<DropdownProps> = ({
             </option>
           );
         })}
-
       </select>
     </div>
   );

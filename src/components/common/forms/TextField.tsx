@@ -27,15 +27,20 @@ const TextField: React.FC<TextFieldProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-1">
-      <div className="mb-2 flex flex-col">
-        {label && (
-          <label htmlFor={id} className="body-16-semibold text-neutral-200">
-            {label}
-          </label>
-        )}
+      {(label || hint) && (
+        <div className="mb-2 flex flex-col">
+          {label && (
+            <label htmlFor={id} className="body-16-semibold text-neutral-200">
+              {label}
+            </label>
+          )}
 
-        <span className="body-12-regular text-neutral-50">{hint}</span>
-      </div>
+          {hint && (
+            <span className="body-12-regular text-neutral-50">{hint}</span>
+          )}
+        </div>
+      )}
+
       <input
         type={type}
         id={id}

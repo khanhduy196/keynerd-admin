@@ -67,15 +67,19 @@ const AsyncDropdown = <IsMulti extends boolean = false>({
   }, [request]);
   return (
     <div className="flex flex-col gap-1">
-   <div className="mb-2 flex flex-col">
-        {
-          label && 
-         <label htmlFor={id} className="body-16-semibold text-neutral-200">
-        {label}
-      </label>
-    } 
-          <span className="body-12-regular text-neutral-50">{hint}</span>
+      {(label || hint) && (
+        <div className="mb-2 flex flex-col">
+          {label && (
+            <label htmlFor={id} className="body-16-semibold text-neutral-200">
+              {label}
+            </label>
+          )}
+          {hint && (
+            <span className="body-12-regular text-neutral-50">{hint}</span>
+          )}
         </div>
+      )}
+
       <AsyncSelect<IMultipleChoiceOption, IsMulti>
         cacheOptions
         defaultOptions={defaultOptions}
