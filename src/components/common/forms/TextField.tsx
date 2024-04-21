@@ -3,6 +3,7 @@ import cx from "classnames";
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   id: string;
+  type?: "text" | "number";
   label?: string;
   hint?: string;
   value?: string;
@@ -21,20 +22,22 @@ const TextField: React.FC<TextFieldProps> = ({
   name = id,
   errorMessage,
   onClearError,
+  type = "text",
   ...inputAttributes
 }) => {
   return (
-    <div className="flex flex-col">
-      {label && (
-        <div className="mb-2 flex flex-col gap-1">
+    <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col">
+        {label && (
           <label htmlFor={id} className="body-16-semibold text-neutral-200">
             {label}
           </label>
-          <span className="body-12-regular text-neutral-50">{hint}</span>
-        </div>
-      )}
+        )}
+
+        <span className="body-12-regular text-neutral-50">{hint}</span>
+      </div>
       <input
-        type="text"
+        type={type}
         id={id}
         value={value}
         onChange={onChange}

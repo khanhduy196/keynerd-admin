@@ -20,7 +20,7 @@ const CustomizedTabs: React.FC<CustomizedTabsProps> = ({
       <TabList className="border-b-2 mb-10 p-0">
         {titles.map((title, index) => (
           <Tab
-            className="inline-block bottom-[-1px] relative list-none cursor-pointer px-4 py-3 body-16-semibold text-neutral-50"
+            className="inline-block bottom-[-1px] relative list-none cursor-pointer px-4 py-3 body-16-semibold text-neutral-50 outline-none"
             selectedClassName="!text-neutral-200 border-b-4 border-turquoise-50"
             key={index}
           >

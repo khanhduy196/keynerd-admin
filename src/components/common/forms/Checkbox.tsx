@@ -1,5 +1,6 @@
 import { CheckboxIcon } from "components/icons";
-import { IMultipleChoiceOption } from "types/input.type";
+import { IMultipleChoiceOption } from "types/common";
+
 
 interface ICheckboxProps {
   option: IMultipleChoiceOption;

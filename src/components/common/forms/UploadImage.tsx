@@ -1,4 +1,6 @@
+import { CameraIcon } from "components/icons";
 import { ChangeEvent, useRef, useState } from "react";
+import cx from "classnames";
 
 type UploadImageProps = {
   label?: string;
@@ -6,6 +8,7 @@ type UploadImageProps = {
   onChange: (files: File[]) => void;
   className?: string;
   onClearError?: () => void;
+  errorMessage?: string;
 };
 
 const UploadImage: React.FC<UploadImageProps> = ({
@@ -13,6 +16,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
   hint,
   onChange,
   onClearError,
+  errorMessage,
 }) => {
   const [images, setImages] = useState<string[]>([]);
   const uploadImageBtn = useRef<HTMLInputElement>(null);
@@ -33,6 +37,9 @@ const UploadImage: React.FC<UploadImageProps> = ({
   };
   const uploadBtnOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (onClearError) {
+      onClearError();
+    }
     uploadImageBtn.current?.click();
   };
   return (
@@ -50,16 +57,23 @@ const UploadImage: React.FC<UploadImageProps> = ({
       </div>
       <div className="grid grid-cols-5 gap-4">
         <button
-          className="border border-neutral-25 h-[200px] flex"
+          className={cx(
+            "border border-neutral-25 h-[200px] flex flex-col justify-center items-center",
+            {
+              "border border-state-error-100": errorMessage,
+            }
+          )}
           onClick={uploadBtnOnClick}
         >
-          <span className="body-14-regular m-auto text-neutral-200">
-            Add a photo
-          </span>
+          <CameraIcon className="w-6 h-6" />
+          <span className="body-14-regular text-neutral-200">Add a photo</span>
         </button>
         {images.map((image) => {
           return (
-            <div className="h-[200px] flex" key={image}>
+            <div
+              className="border border-neutral-25 bg-neutral-20 h-[200px] flex justify-center"
+              key={image}
+            >
               <img src={image} alt="" />
             </div>
           );

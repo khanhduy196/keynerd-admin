@@ -27,15 +27,26 @@ const KeycapList = () => {
     () => [
       {
         Header: "Name",
-        accessor: "name",
         id: "name",
+        Cell: ({ row }: { row: { original: KeycapListItem } }) => (
+          <div className="flex">
+            <img
+              className="w-[100px] h-[100px]"
+              src={row.original.photos[0]}
+              alt=""
+            />
+            <div className="ml-4 flex flex-col justify-center">
+              <span>{row.original.name}</span>
+            </div>
+          </div>
+        ),
       },
       {
         Header: () => null,
         id: "buttons",
         Cell: ({ row }: { row: { original: KeycapListItem } }) => (
           <div className="flex items-center justify-end">
-            <Link to={`${row.original.id}`}>
+            <Link to={`view/${row.original.id}`}>
               <EyeIcon className="w-[24px] h-[24px] text-neutral-100" />
             </Link>
           </div>
@@ -47,12 +58,12 @@ const KeycapList = () => {
 
   return (
     <Layout>
-       <div className="flex justify-between mb-10">
-          <PageTitle>Keycap</PageTitle>
-          <Link to={"create"}>
-            <Button label="Create a new keycap" />
-          </Link>
-        </div>
+      <div className="flex justify-between mb-10">
+        <PageTitle>Keycap</PageTitle>
+        <Link to={"create"}>
+          <Button label="Create a new keycap" />
+        </Link>
+      </div>
       <LoadingWrapper isLoading={isLoading}>
         <Table
           columns={columns}

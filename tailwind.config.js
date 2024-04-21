@@ -74,6 +74,12 @@ module.exports = {
             80: "#ffb8b8",
             100: "#ff4e4e",
           },
+          success: {
+            60: "#5cb85c",
+          },
+          warning: {
+            60: "#e9d502",
+          },
         },
         bgLinear: {
           blueGreen: "#c0e8ea",

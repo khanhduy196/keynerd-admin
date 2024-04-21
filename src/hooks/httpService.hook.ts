@@ -3,62 +3,55 @@ import { useCallback, useEffect, useState } from "react";
 
 type HttpErrorType = AxiosError<IHttpError> | undefined;
 
-interface IHttpQueryRequestOption {
-  enabled: boolean;
-}
+// interface IHttpQueryRequestOption {
+//   enabled: boolean;
+// }
 
 interface IHttpRequestParam<TResponse> {
-  request: () => Promise<TResponse>;
-  requestOption?: IHttpQueryRequestOption;
+  request?: () => Promise<TResponse>;
+  // requestOption?: IHttpQueryRequestOption;
   onLoad?: () => void;
   onCompleted?: () => void;
 }
 
 interface IHttpQueryResponse<TResponse> {
   result: TResponse | undefined;
-  refetch: () => Promise<void>;
+  refetch: (currentRequest: () => Promise<TResponse>) => Promise<void>;
   error: HttpErrorType;
   isLoading: boolean;
 }
 
 export const useHttpQueryService = <TResponse>({
   request,
-  requestOption = {
-    enabled: true,
-  },
 }: IHttpRequestParam<TResponse>): IHttpQueryResponse<TResponse> => {
   const [result, setResult] = useState<TResponse>();
   const [error, setError] = useState<HttpErrorType>();
-  const [isLoading, setIsLoading] = useState<boolean>(
-    requestOption.enabled === true
+  const [isLoading, setIsLoading] = useState<boolean>(!!request);
+
+  const fetch = useCallback(
+    async (currentRequest: () => Promise<TResponse>) => {
+      setIsLoading(true);
+      try {
+        const res = await currentRequest();
+        setResult(res);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
   );
 
-  const fetch = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const res = await request();
-      setResult(res);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(err);
-      }
-      console.log("Request error: ", err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [request]);
-
   useEffect(() => {
-    if (requestOption.enabled) {
-      fetch();
+    if (request) {
+      fetch(request);
     }
-  }, [requestOption.enabled]);
+  }, []);
 
-  const refetch = useCallback(async () => {
-    await fetch();
-  }, [fetch]);
-
-  return { result, error, isLoading, refetch };
+  return { result, error, isLoading, refetch: fetch };
 };
 
 interface IHttpMutationParams<Tpayload, TResponse> {

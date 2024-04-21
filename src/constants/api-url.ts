@@ -1,3 +1,4 @@
 export const ENDPOINT_URL = {
-  KEYCAP: "/keycap"
+  KEYCAP: "/keycap",
+  ORDER: "/order"
 };

@@ -27,7 +27,11 @@ import { ReactComponent as DrawIcon } from "./draw.svg";
 import { ReactComponent as DownloadIcon } from "./download.svg";
 import { ReactComponent as LoadingIcon } from "./loading.svg";
 import { ReactComponent as UploadIcon } from "./upload.svg";
-
+import { ReactComponent as CameraIcon } from "./camera.svg";
+import { ReactComponent as KeycapIcon } from "./keycap.svg";
+import { ReactComponent as OrderIcon } from "./order.svg";
+import { ReactComponent as UndoIcon } from "./undo.svg";
+import { ReactComponent as CompleteIcon } from "./complete.svg";
 export {
   Three60Icon,
   FormIcon,
@@ -58,4 +62,9 @@ export {
   DownloadIcon,
   LoadingIcon,
   UploadIcon,
+  CameraIcon,
+  KeycapIcon,
+  OrderIcon,
+  UndoIcon,
+  CompleteIcon,
 };

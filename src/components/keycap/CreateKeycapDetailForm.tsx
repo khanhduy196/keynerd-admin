@@ -2,7 +2,7 @@ import { Button, DropdownField } from "components/common/forms";
 import UploadFile from "components/common/forms/UploadFile";
 import { DeleteIcon } from "components/icons";
 import { ChangeEvent } from "react";
-import { OptionItem } from "types/common";
+import { IMultipleChoiceOption } from "types/common";
 import { CreateKeycapDetailRequest } from "types/keycap.type";
 
 type CreateKeycapDetailFormProps = {
@@ -10,39 +10,40 @@ type CreateKeycapDetailFormProps = {
   onRemove: (index: number) => void;
   value: CreateKeycapDetailRequest;
   onChange: (value: CreateKeycapDetailRequest, index: number) => void;
+  canRemove?: boolean;
 };
 
-const PROFILES: OptionItem[] = [
+const PROFILES: IMultipleChoiceOption[] = [
   {
     value: "SA",
-    display: "SA",
+    label: "SA",
   },
   {
     value: "OEM",
-    display: "Oem",
+    label: "Oem",
   },
   {
     value: "CUBE",
-    display: "Cube",
+    label: "Cube",
   },
   {
     value: "SHORTSA",
-    display: "Short SA",
+    label: "Short SA",
   },
 ];
 
-const SIZES: OptionItem[] = [
+const SIZES: IMultipleChoiceOption[] = [
   {
     value: "1",
-    display: "1",
+    label: "1U",
   },
   {
     value: "2",
-    display: "2",
+    label: "2U",
   },
   {
     value: "2.5",
-    display: "2.5",
+    label: "2.5U",
   },
 ];
 
@@ -51,6 +52,7 @@ const CreateKeycapDetailForm: React.FC<CreateKeycapDetailFormProps> = ({
   onRemove,
   value,
   onChange,
+  canRemove = true
 }) => {
   const { profile, size } = value;
 
@@ -108,8 +110,8 @@ const CreateKeycapDetailForm: React.FC<CreateKeycapDetailFormProps> = ({
             <p className="body-16-semibold text-neutral-200">Icons</p>
           )}
         </div>
-        <div className="text-end">
-          <Button variant="danger" size="small" onClick={() => onRemove(index)}>
+        <div className="text-end mt-1">
+          <Button disabled={!canRemove} variant="danger" size="small" onClick={() => onRemove(index)}>
             <DeleteIcon className="w-6 h-6" />
           </Button>
         </div>

@@ -47,7 +47,9 @@ const Table = <T extends { id: number | string }>({
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>
                 {headerGroup.headers.map((column) => (
                   <th
-                    {...column.getHeaderProps()}
+                  {...column.getHeaderProps({
+                    style: { width: column.width },
+                  })}
                     key={column.id}
                     className={cx("px-8 py-4", cellClassName)}
                   >

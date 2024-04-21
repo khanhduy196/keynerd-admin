@@ -3,12 +3,20 @@ import UploadImage from "components/common/forms/UploadImage";
 
 import { Layout, LoadingWrapper, PageTitle } from "components/common/layouts";
 import CreateKeycapDetailForm from "components/keycap/CreateKeycapDetailForm";
+import { PAGE_PATHS } from "constants/page-paths";
 import { KeycapProfile } from "enums/keycap";
+import { useHttpMutationService } from "hooks";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createKeycapSchema } from "schemas/create-keycap-schema";
+import KeycapService from "services/keycap.service";
+import { FieldErrors } from "types/field-errors.type";
 import {
   CreateKeycapDetailRequest,
   CreateKeycapRequest,
 } from "types/keycap.type";
+import { ValidationUtil } from "utils";
+import { toastError, toastSuccess } from "utils/toast";
 
 const INITAL_KEYCAP_DETAIL_FORM: CreateKeycapDetailRequest = {
   key: -Date.now(),
@@ -23,7 +31,14 @@ const INITAL_FORM: CreateKeycapRequest = {
 };
 
 const KeycapCreate = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<CreateKeycapRequest>(INITAL_FORM);
+  const [validationError, setValidationError] = useState<
+    FieldErrors<CreateKeycapRequest>
+  >({});
+  const { mutate, isLoading } = useHttpMutationService({
+    request: (data?: CreateKeycapRequest) => KeycapService.create(data!),
+  });
 
   const fieldOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue: CreateKeycapRequest = {
@@ -40,9 +55,29 @@ const KeycapCreate = () => {
     });
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form);
+
+    const { error, value: validatedData } = createKeycapSchema.validate(form);
+
+    if (error) {
+      const newValidationError =
+        ValidationUtil.transformValidationError<CreateKeycapRequest>(error);
+      setValidationError(newValidationError);
+      toastError(error.message);
+      return;
+    }
+
+    const response = await mutate(validatedData);
+
+    if (response) {
+      toastSuccess("Keycap is created successfully!");
+      navigate(PAGE_PATHS.KEYCAP);
+    }
+  };
+
+  const handleClearErrorValidation = () => {
+    setValidationError({});
   };
 
   const handleChangeDetails = (details: CreateKeycapDetailRequest[]) => {
@@ -55,7 +90,10 @@ const KeycapCreate = () => {
   const handleAddKeycapDetail = () => {
     setForm({
       ...form,
-      details: [...form.details, {...INITAL_KEYCAP_DETAIL_FORM, key: -Date.now()}],
+      details: [
+        ...form.details,
+        { ...INITAL_KEYCAP_DETAIL_FORM, key: -Date.now() },
+      ],
     });
   };
 
@@ -65,11 +103,14 @@ const KeycapCreate = () => {
     handleChangeDetails(newDetails);
   };
 
-  const handleChangeKeycapDetail = (value: CreateKeycapDetailRequest, index: number) => {
+  const handleChangeKeycapDetail = (
+    value: CreateKeycapDetailRequest,
+    index: number
+  ) => {
     const newDetails = [...form.details];
-    newDetails[index] = {...value};
+    newDetails[index] = { ...value };
     handleChangeDetails(newDetails);
-  }
+  };
 
   return (
     <Layout>
@@ -81,13 +122,20 @@ const KeycapCreate = () => {
           </div>
           <div className="flex gap-8">
             <form className="flex-1 flex flex-col gap-4" onSubmit={onSubmit}>
-              <UploadImage label="Photos" onChange={photosOnChange} />
+              <UploadImage
+                label="Photos"
+                onChange={photosOnChange}
+                errorMessage={validationError.photos?.toString()}
+                onClearError={handleClearErrorValidation}
+              />
               <TextField
                 id="name"
                 label="Name"
                 name="name"
                 value={form.name}
+                errorMessage={validationError.name}
                 onChange={fieldOnChange}
+                onClearError={handleClearErrorValidation}
               />
               {form.details.map((detail, index) => {
                 return (
@@ -97,6 +145,7 @@ const KeycapCreate = () => {
                     index={index}
                     key={detail.key}
                     onRemove={handleRemoveKeycapDetail}
+                    canRemove={form.details.length > 1}
                   />
                 );
               })}
@@ -109,7 +158,12 @@ const KeycapCreate = () => {
                   className="flex-1 h-full"
                   onClick={handleAddKeycapDetail}
                 />
-                <Button label="Save" type="submit" className="flex-1 h-full" />
+                <Button
+                  disabled={isLoading}
+                  label="Save"
+                  type="submit"
+                  className="flex-1 h-full"
+                />
               </div>
             </form>
           </div>

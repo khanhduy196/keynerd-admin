@@ -1,12 +1,13 @@
 import { ChangeEventHandler, InputHTMLAttributes } from "react";
 import cx from "classnames";
-import { OptionItem } from "types/common";
+import { IMultipleChoiceOption } from "types/common";
+
 
 export type DropdownProps = InputHTMLAttributes<HTMLSelectElement> & {
   id: string;
   label?: string;
   hint?: string;
-  options: OptionItem[];
+  options: IMultipleChoiceOption[];
   value?: string;
   onChange?: ChangeEventHandler<HTMLSelectElement>;
   className?: string;
@@ -57,7 +58,7 @@ const DropdownField: React.FC<DropdownProps> = ({
         {options.map((option) => {
           return (
             <option key={option.value} value={option.value}>
-              {option.display}
+              {option.label}
             </option>
           );
         })}

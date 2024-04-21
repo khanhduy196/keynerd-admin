@@ -5,6 +5,7 @@ export const PARAMS = {
 };
 
 export const PAGE_PATHS = {
+
   HOME: "/",
   LOGIN: "/login",
   THREE60_FEEDBACK_LIST: "/360",
@@ -29,5 +30,8 @@ export const PAGE_PATHS = {
   FEEDBACK_PROACTIVELY_GIVE_THREE60: "/feedback/give/360",
   KEYCAP: "/keycap",
   KEYCAP_CREATE: "/keycap/create",
+  KEYCAP_VIEW: "/keycap/view/:id",
   PAGE_NOT_FOUND: "/page-not-found",
+  ORDER: "/order",
+  ORDER_CREATE: "/order/create",
 };

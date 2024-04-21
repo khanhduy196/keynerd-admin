@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { SyntheticEvent } from "react";
-import { IMultipleChoiceOption } from "types/input.type";
+import { IMultipleChoiceOption } from "types/common";
+
 
 interface IRadioGroupProps {
   id: string | number;

@@ -1,7 +1,8 @@
-import KeycapList from "pages/keycap-list/KeycapList";
+import { PAGE_PATHS } from "constants/page-paths";
+import { Navigate } from "react-router-dom";
 
 
 const Home = () => {
-  return <KeycapList />;
+  return <Navigate to={PAGE_PATHS.ORDER} />;
 };
 export default Home;

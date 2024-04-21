@@ -1,9 +1,9 @@
 import { debounce } from "lodash";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { OnChangeValue, PropsValue } from "react-select";
+import { OnChangeValue } from "react-select";
 import AsyncSelect from "react-select/async";
-import { IMultipleChoiceOption } from "types/input.type";
 import cx from "classnames";
+import { IMultipleChoiceOption } from "types/common";
 
 const DEFAULT_DEBOUNCE_WAIT_TIME_IN_MILLISECONDS = 500;
 
@@ -13,7 +13,7 @@ type AsyncDropdownProps<IsMulti extends boolean = false> = {
   hint?: string;
   placeholder?: ReactNode;
   className?: string;
-  value?: PropsValue<IMultipleChoiceOption>;
+  value?: IMultipleChoiceOption;
   request: (inputValue: string) => Promise<IMultipleChoiceOption[]>;
   onChange?: (newValue: OnChangeValue<IMultipleChoiceOption, IsMulti>) => void;
   isMulti?: IsMulti;
@@ -66,18 +66,16 @@ const AsyncDropdown = <IsMulti extends boolean = false>({
     updateDefaultOptions();
   }, [request]);
   return (
-    <div className="flex flex-col gap-2">
-      {label && (
-        <div className="flex flex-col gap-1">
-          <label htmlFor={id} className="body-16-semibold text-neutral-200">
-            {label}
-          </label>
-
-          {hint && (
-            <span className="body-12-regular text-neutral-50">{hint}</span>
-          )}
+    <div className="flex flex-col gap-1">
+   <div className="mb-2 flex flex-col">
+        {
+          label && 
+         <label htmlFor={id} className="body-16-semibold text-neutral-200">
+        {label}
+      </label>
+    } 
+          <span className="body-12-regular text-neutral-50">{hint}</span>
         </div>
-      )}
       <AsyncSelect<IMultipleChoiceOption, IsMulti>
         cacheOptions
         defaultOptions={defaultOptions}

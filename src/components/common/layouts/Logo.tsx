@@ -18,7 +18,7 @@ const Logo: React.FC<LogoProps> = ({ size = "medium", className }) => {
 
   return (
     <Link className={cx("cursor-pointer", className)} to={PAGE_PATHS.HOME}>
-      <img src="/logo.png" alt="logo" className={sizeClassName} />
+      {/* <img src="/logo.png" alt="logo" className={sizeClassName} /> */}
     </Link>
   );
 };

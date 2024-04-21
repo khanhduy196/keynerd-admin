@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { IMultipleChoiceOption } from "types/input.type";
 import Checkbox from "./Checkbox";
+import { IMultipleChoiceOption } from "types/common";
 
 interface ICheckboxListProps {
   direction?: "horizontal" | "vertical";

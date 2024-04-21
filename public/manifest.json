@@ -1,9 +1,9 @@
 {
-  "short_name": "360 Survey",
-  "name": "Internal 360 Survey",
+  "short_name": "Keynerd",
+  "name": "Keynerd Artisan Keycap",
   "icons": [
     {
-      "src": "favicon.ico",
+      // "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },

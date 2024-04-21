@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { IMultipleChoiceOption } from "types/input.type";
 import RadioButton from "./RadioButton";
+import { IMultipleChoiceOption } from "types/common";
 
 interface IRadioProps {
   id?: string | number;

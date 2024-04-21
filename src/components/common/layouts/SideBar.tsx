@@ -11,7 +11,7 @@ const SideBar = () => {
 
   return (
     <div className="sticky top-0 px-6 py-8 flex flex-col max-h-screen">
-      <div className="mb-10">
+      <div className="mb-14">
         <Logo size="large" />
       </div>
       <div className="flex w-[232px] flex-col gap-4 flex-1">

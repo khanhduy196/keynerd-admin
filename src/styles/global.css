@@ -72,3 +72,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 [class$="indicatorSeparator"] {
   display: none;
 }
+
+.swiper {
+  width: -webkit-fill-available;
+}
+
+.swiper-slide-active {
+  justify-content: center;
+  margin:auto;
+  text-align: center;
+}
