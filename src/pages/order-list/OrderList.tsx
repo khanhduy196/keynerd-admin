@@ -58,6 +58,7 @@ const OrderList = () => {
     }
     setPaginatedListRequest({
       ...paginatedListRequest,
+      currentPage: 1,
       status: currentOrderStatus,
     });
   }, [tabIndex]);
