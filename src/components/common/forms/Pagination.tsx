@@ -13,10 +13,6 @@ type PaginationProps = {
 
 const itemsPerPageOptions: IMultipleChoiceOption[] = [
   {
-    value: "1",
-    label: "1 item per page",
-  },
-  {
     value: "15",
     label: "15 items per page",
   },

@@ -192,7 +192,7 @@ const OrderList = () => {
         width: "max-content",
       },
     ],
-    []
+    [paginatedListRequest]
   );
 
   const paginationOnChange = (currentPage: number, itemsPerPage: number) => {
