@@ -46,8 +46,12 @@ const SIZES: IMultipleChoiceOption[] = [
     label: "2U",
   },
   {
-    value: "2.5",
-    label: "2.5U",
+    value: "2.25",
+    label: "2.25U",
+  },
+  {
+    value: "6.25",
+    label: "6.25U",
   },
 ];
 
