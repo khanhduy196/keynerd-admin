@@ -34,6 +34,10 @@ const PROFILES: IMultipleChoiceOption[] = [
     value: "NONE",
     label: "None",
   },
+  {
+    value: "DOM",
+    label: "Dom",
+  },
 ];
 
 const SIZES: IMultipleChoiceOption[] = [
