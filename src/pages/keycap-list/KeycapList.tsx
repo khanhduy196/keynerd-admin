@@ -1,5 +1,6 @@
 import { Button, Table } from "components/common/forms";
 import Pagination from "components/common/forms/Pagination";
+import SearchField from "components/common/forms/SearchField";
 import { Layout, LoadingWrapper, PageTitle } from "components/common/layouts";
 import { EyeIcon } from "components/icons";
 import { DEFAULT_PAGINATED_LIST_REQUEST } from "constants/common";
@@ -70,6 +71,14 @@ const KeycapList = () => {
       itemsPerPage,
     });
   };
+
+  const handleSearchOnChange = (value: string) => {
+    setPaginatedListRequest({
+      ...paginatedListRequest,
+      searchQuery: value,
+    });
+  }
+
   return (
     <Layout>
       <div className="flex justify-between mb-10">
@@ -81,13 +90,24 @@ const KeycapList = () => {
       <LoadingWrapper isLoading={isLoading}>
         {paginatedList && (
           <>
-            <Pagination
-              className="mb-4"
-              itemsPerPage={paginatedList.itemsPerPage}
-              totalPages={paginatedList.totalPages}
-              currentPage={paginatedList.currentPage}
-              onChange={paginationOnChange}
-            />
+            <div className="flex justify-between">
+            <SearchField
+                value={paginatedListRequest.searchQuery}
+                handleValueChange={handleSearchOnChange}
+                placeholder="Search by name"
+                className="w-[300px]"
+                autoFocus
+              />
+      
+              <Pagination
+                className="mb-4"
+                itemsPerPage={paginatedList.itemsPerPage}
+                totalPages={paginatedList.totalPages}
+                currentPage={paginatedList.currentPage}
+                onChange={paginationOnChange}
+              />
+            </div>
+
             <Table columns={columns} data={paginatedList.items} />
           </>
         )}

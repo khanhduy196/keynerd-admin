@@ -1,19 +1,24 @@
-import { ChangeEventHandler, InputHTMLAttributes } from "react";
 import cx from "classnames";
 import { SearchIcon } from "components/icons";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 
 type SearchFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  handleValueChange: (value: string) => void;
   className?: string;
 };
 
 const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,
   value,
-  onChange,
+  handleValueChange,
   className,
   ...inputAttributes
 }) => {
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleValueChange(e.target.value);
+  };
+
   return (
     <div className="relative w-fit">
       <input

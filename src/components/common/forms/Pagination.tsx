@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className={cx("flex gap-2 justify-end items-baseline", className)}>
+    <div className={cx("flex gap-2 items-baseline", className)}>
       <DropdownField
         className="w-[190px]"
         id="itemsPerPage"
