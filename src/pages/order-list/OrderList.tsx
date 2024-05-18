@@ -229,7 +229,6 @@ const OrderList = () => {
                 onChange={paginationOnChange}
               />
             </div>
-
             <Table columns={columns} data={paginatedList.items} />
           </>
         ) : (
