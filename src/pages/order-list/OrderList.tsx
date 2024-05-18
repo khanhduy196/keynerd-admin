@@ -220,19 +220,21 @@ const OrderList = () => {
       <LoadingWrapper isLoading={isLoading}>
         {paginatedList && paginatedList.items.length > 0 ? (
           <>
-            <Pagination
-              className="mb-4"
-              itemsPerPage={paginatedList.itemsPerPage}
-              totalPages={paginatedList.totalPages}
-              currentPage={paginatedList.currentPage}
-              onChange={paginationOnChange}
-            />
+            <div className="flex justify-end">
+              <Pagination
+                className="mb-4"
+                itemsPerPage={paginatedList.itemsPerPage}
+                totalPages={paginatedList.totalPages}
+                currentPage={paginatedList.currentPage}
+                onChange={paginationOnChange}
+              />
+            </div>
+
             <Table columns={columns} data={paginatedList.items} />
           </>
         ) : (
           <NoOrder />
         )}
-
       </LoadingWrapper>
     </Layout>
   );
