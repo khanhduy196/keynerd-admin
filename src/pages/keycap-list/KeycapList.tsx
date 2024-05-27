@@ -2,7 +2,7 @@ import { Button, Table } from "components/common/forms";
 import Pagination from "components/common/forms/Pagination";
 import SearchField from "components/common/forms/SearchField";
 import { Layout, LoadingWrapper, PageTitle } from "components/common/layouts";
-import { EyeIcon } from "components/icons";
+import { DrawIcon, EyeIcon } from "components/icons";
 import { DEFAULT_PAGINATED_LIST_REQUEST } from "constants/common";
 import { useError, useHttpQueryService } from "hooks";
 import { useEffect, useMemo, useState } from "react";
@@ -49,7 +49,10 @@ const KeycapList = () => {
         Header: () => null,
         id: "buttons",
         Cell: ({ row }: { row: { original: KeycapListItem } }) => (
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end gap-4">
+            <Link to={`update/${row.original.id}`}>
+              <DrawIcon className="w-[24px] h-[24px] text-neutral-100" />
+            </Link>
             <Link to={`view/${row.original.id}`}>
               <EyeIcon className="w-[24px] h-[24px] text-neutral-100" />
             </Link>
@@ -77,7 +80,7 @@ const KeycapList = () => {
       ...paginatedListRequest,
       searchQuery: value,
     });
-  }
+  };
 
   return (
     <Layout>
@@ -91,14 +94,14 @@ const KeycapList = () => {
         {paginatedList && (
           <>
             <div className="flex justify-between">
-            <SearchField
+              <SearchField
                 value={paginatedListRequest.searchQuery}
                 handleValueChange={handleSearchOnChange}
                 placeholder="Search by name"
                 className="w-[300px]"
                 autoFocus
               />
-      
+
               <Pagination
                 className="mb-4"
                 itemsPerPage={paginatedList.itemsPerPage}

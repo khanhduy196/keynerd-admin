@@ -30,6 +30,7 @@ export const PAGE_PATHS = {
   FEEDBACK_PROACTIVELY_GIVE_THREE60: "/feedback/give/360",
   KEYCAP: "/keycap",
   KEYCAP_CREATE: "/keycap/create",
+  KEYCAP_UPDATE: "/keycap/update/:id",
   KEYCAP_VIEW: "/keycap/view/:id",
   PAGE_NOT_FOUND: "/page-not-found",
   ORDER: "/order",

@@ -6,7 +6,7 @@ import {
   KeycapListItem,
 } from "responses/keycap-response";
 import { GetPaginatedListRequest } from "types/common";
-import { CreateKeycapRequest } from "types/keycap.type";
+import { CreateKeycapRequest, UpdateKeycapRequest } from "types/keycap.type";
 
 const KeycapService = {
   getList: async (
@@ -19,8 +19,13 @@ const KeycapService = {
   create: async (request: CreateKeycapRequest): Promise<AxiosResponse> => {
     return await KeycapApi.create(request);
   },
+
   getById: async (id: number): Promise<KeycapViewItem> => {
     return await KeycapApi.getById(id);
+  },
+
+  update: async (request: UpdateKeycapRequest): Promise<AxiosResponse> => {
+    return await KeycapApi.update(request);
   },
 };
 
