@@ -1,4 +1,4 @@
-import { FormIcon, HomeIcon, KeycapIcon, OrderIcon } from "components/icons";
+import { HomeIcon, KeycapIcon, OrderIcon } from "components/icons";
 import { PAGE_PATHS } from "./page-paths";
 
 export const ADMIN_MENU_ITEM_PATHS = [
