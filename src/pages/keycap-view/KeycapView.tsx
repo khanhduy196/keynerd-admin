@@ -1,8 +1,7 @@
-import KeycapApi from "apis/keycap-api";
 import { BackButton, Table } from "components/common/forms";
 import { Layout, LoadingWrapper, PageTitle } from "components/common/layouts";
 import Gallery from "components/common/layouts/Gallery";
-import { DownloadIcon, EyeIcon } from "components/icons";
+import { DownloadIcon } from "components/icons";
 import { useError, useHttpQueryService, useNumericParam } from "hooks";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -11,6 +10,7 @@ import {
   KeycapDetailViewItem,
   KeycapViewItem,
 } from "responses/keycap-response";
+import KeycapService from "services/keycap.service";
 
 const KeycapView = () => {
   const id = useNumericParam("id");
@@ -20,7 +20,7 @@ const KeycapView = () => {
     error,
     isLoading,
   } = useHttpQueryService<KeycapViewItem>({
-    request: () => KeycapApi.getById(id),
+    request: () => KeycapService.getById(id),
   });
 
   useError(error, true);

@@ -9,6 +9,7 @@ import KeycapList from "pages/keycap-list/KeycapList";
 import OrderList from "pages/order-list/OrderList";
 import OrderCreate from "pages/order-create/OrderCreate";
 import KeycapView from "pages/keycap-view/KeycapView";
+import KeycapUpdate from "pages/keycap-update/KeycapUpdate";
 
 const Router = () => {
   return (
@@ -45,6 +46,15 @@ const Router = () => {
         element={
           <ProtectedRoute>
             <KeycapView />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path={PAGE_PATHS.KEYCAP_UPDATE}
+        element={
+          <ProtectedRoute>
+            <KeycapUpdate />
           </ProtectedRoute>
         }
       />
