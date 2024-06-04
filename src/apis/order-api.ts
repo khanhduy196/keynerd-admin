@@ -26,6 +26,10 @@ const OrderApi = {
   updateStatus: async (request: UpdateOrderStatusRequest): Promise<AxiosResponse> => { 
     return await http.put(`${CONTROLLER_PREFIX}/status`, request);
   },
+
+  delete: async (id: number): Promise<AxiosResponse> => { 
+    return await http.delete(`${CONTROLLER_PREFIX}/${id}`);
+  },
 };
 
 export default OrderApi;

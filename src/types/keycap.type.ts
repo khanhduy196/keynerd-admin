@@ -20,6 +20,7 @@ export type UpdateKeycapRequest = {
 };
 
 export type UpdateKeycapDetailRequest = {
+  id?: number;
   key: number;
   profile: KeycapProfile;
   size: number;

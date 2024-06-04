@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { ENDPOINT_URL } from "constants/api-url";
 import { GetPaginatedListResponse } from "responses/common";
-import { KeycapListItem, KeycapViewItem } from "responses/keycap-response";
+import { KeycapDetailViewItem, KeycapListItem, KeycapViewItem } from "responses/keycap-response";
 import { GetPaginatedListRequest } from "types/common";
 import { CreateKeycapRequest, UpdateKeycapRequest } from "types/keycap.type";
 import { http } from "utils";
@@ -40,11 +40,17 @@ const KeycapApi = {
     return res.data;
   },
 
+  getUsedDetailsOfKeycap: async (id: number): Promise<KeycapDetailViewItem[]> => {
+    const res = await http.get(`${CONTROLLER_PREFIX}/getUsedDetails/${id}`);
+    return res.data;
+  },
+
   update: async (request: UpdateKeycapRequest): Promise<AxiosResponse> => {
     const formData = new FormData();
     formData.append("id", request.id.toString());
     formData.append("name", request.name);
     request.details.forEach((detail, index) => {
+      formData.append(`details[${index}][id]`, detail.id ? detail.id.toString() : "0");
       formData.append(`details[${index}][profile]`, detail.profile);
       formData.append(`details[${index}][size]`, detail.size.toString());
       formData.append(`details[${index}].file`, detail.file!);

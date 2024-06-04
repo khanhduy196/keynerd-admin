@@ -7,7 +7,13 @@ import {
   LoadingWrapper,
   PageTitle,
 } from "components/common/layouts";
-import { CompleteIcon, DownloadIcon, UndoIcon } from "components/icons";
+import { ConfirmModal } from "components/common/modals";
+import {
+  CompleteIcon,
+  DeleteIcon,
+  DownloadIcon,
+  UndoIcon,
+} from "components/icons";
 import NoOrder from "components/order/NoOrder";
 import { DEFAULT_PAGINATED_LIST_REQUEST } from "constants/common";
 import { PAGE_PATHS } from "constants/page-paths";
@@ -26,6 +32,8 @@ import {
 import { toastSuccess } from "utils/toast";
 
 const OrderList = () => {
+  const [selectedOrderIdToDelete, setSelectedOrderIdToDelete] =
+    useState<number | null>(null);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [paginatedListRequest, setPaginatedListRequest] =
     useState<GetPaginatedOrderListRequest>({
@@ -45,6 +53,10 @@ const OrderList = () => {
   const { mutate } = useHttpMutationService({
     request: (request?: UpdateOrderStatusRequest) =>
       OrderService.updateStatus(request!),
+  });
+
+  const { mutate: deleteOrder } = useHttpMutationService({
+    request: (id?: number) => OrderService.delete(id!),
   });
 
   useError(error, true);
@@ -82,6 +94,19 @@ const OrderList = () => {
 
     updateStatus(orderItem.id, updatedStatus);
   };
+
+  const handleDeleteOrder = async (id: number) => {
+    const response = await deleteOrder(id);
+    if (response) {
+      toastSuccess("Delete order successfully!");
+      closeDeleteModal();
+      fetchOrders();
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setSelectedOrderIdToDelete(null);
+  }
 
   const updateStatus = async (id: number, updatedStatus: OrderStatus) => {
     const response = await mutate({
@@ -187,6 +212,12 @@ const OrderList = () => {
                 className="w-[24px] h-[24px] text-neutral-100 cursor-pointer"
               />
             )}
+            {row.original.orderStatus === OrderStatus.TO_DO && (
+              <DeleteIcon
+                onClick={() => setSelectedOrderIdToDelete(row.original.id)}
+                className="w-[30xp] h-[30px] text-neutral-100 cursor-pointer"
+              />
+            )}
           </div>
         ),
         width: "max-content",
@@ -217,6 +248,17 @@ const OrderList = () => {
         tabIndex={tabIndex}
         onSelect={setTabIndex}
       />
+      <ConfirmModal
+        open={!!selectedOrderIdToDelete}
+        onYes={() => handleDeleteOrder(selectedOrderIdToDelete!)}
+        onNo={closeDeleteModal}
+        title={"Delete Confirmation"}
+        content={`Are you sure you want to delete this order ${selectedOrderIdToDelete!}?`}
+        yesButton={"Yes"}
+        noButton={"No"}
+      />
+
+
       <LoadingWrapper isLoading={isLoading}>
         {paginatedList && paginatedList.items.length > 0 ? (
           <>
