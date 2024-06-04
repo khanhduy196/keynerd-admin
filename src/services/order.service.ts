@@ -21,6 +21,10 @@ const OrderService = {
   updateStatus: async (request: UpdateOrderStatusRequest): Promise<AxiosResponse> => {
     return await OrderApi.updateStatus(request);
   },
+
+  delete: async (id: number): Promise<AxiosResponse> => {
+    return await OrderApi.delete(id);
+  },
 };
 
 export default OrderService;

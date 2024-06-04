@@ -11,7 +11,7 @@ import {
 } from "hooks";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { KeycapViewItem } from "responses/keycap-response";
+import { KeycapDetailViewItem, KeycapViewItem } from "responses/keycap-response";
 import KeycapService from "services/keycap.service";
 import { FieldErrors } from "types/field-errors.type";
 import {
@@ -22,6 +22,7 @@ import {
 import { toastSuccess } from "utils/toast";
 
 const INITAL_KEYCAP_DETAIL_FORM: UpdateKeycapDetailRequest = {
+  id: 0,
   key: -Date.now(),
   profile: KeycapProfile.SA,
   size: 1,
@@ -44,6 +45,15 @@ const KeycapUpdate = () => {
     request: () => KeycapService.getById(id),
   });
 
+  const {
+    result: usedDetails,
+    error: gettingUsedDetailsError,
+    isLoading: isGettingUsedDetailsLoading,
+  } = useHttpQueryService<KeycapDetailViewItem[]>({
+    request: () => KeycapService.getUsedDetailsOfKeycap(id),
+  });
+
+  useError(gettingUsedDetailsError, true);
   useError(gettingKeycapError, true);
 
   const navigate = useNavigate();
@@ -61,7 +71,10 @@ const KeycapUpdate = () => {
       setForm({
         id: keycap.id,
         name: keycap.name,
-        details: [INITAL_KEYCAP_DETAIL_FORM],
+        details: keycap.details.map<UpdateKeycapDetailRequest>((detail) => ({
+          ...detail,
+          key: -Math.random()
+        }))
       });
     }
   }, [keycap]);
@@ -133,7 +146,7 @@ const KeycapUpdate = () => {
 
   return (
     <Layout>
-      <LoadingWrapper isLoading={isGettingKeycapLoading}>
+      <LoadingWrapper isLoading={isGettingKeycapLoading || isGettingUsedDetailsLoading}>
         <div className="w-full h-fit pb-8">
           <div className="flex gap-6 items-center mb-6">
             <BackButton className="text-neutral-200" />
@@ -158,7 +171,9 @@ const KeycapUpdate = () => {
                     index={index}
                     key={detail.key}
                     onRemove={handleRemoveKeycapDetail}
-                    canRemove={form.details.length > 1}
+                    canRemove={form.details.length > 1 && !(usedDetails ?? []).find(
+                      (n) => n.id === detail.id
+                    )}
                   />
                 );
               })}
